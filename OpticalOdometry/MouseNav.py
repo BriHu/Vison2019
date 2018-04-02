@@ -15,11 +15,13 @@ class MouseNav:
 		if(acc_LY == acc_RY):
 			return acc_LX, acc_LY, acc_RX, acc_RY, 0
 		else:
-			fixed_distance = 1.0
+			distance = 13.5 #in inches
+			DPI = 420 #dots (of mouse) per inch
+			fixed_distance = distance * DPI #the fixed distance in units of dots
 			#if the center of rotation occures on either mouse the radius is equal to the fixed distance and we can simplify the math to either case
 			if(acc_RY == 0):
 				#theta in radians is equal to the arc (accumulated y) divided by the radius (fixed distance)
-				theta = acc_LY / fixed_distance
+				theta = acc_LY / (2 * fixed_distance)
 				#solving a simple imaginary triangle gives us the y-part of the curve
 				left_y = fixed_distance * math.sin(theta)
 				#for the x-part we need the hypotonuse of the imaginary triangle, this can be found using cosine law
@@ -28,7 +30,7 @@ class MouseNav:
 				right_x = 0
 			elif(acc_LY == 0):
 				#see above
-				theta = -acc_RY / fixed_distance
+				theta = -acc_RY / (2 * fixed_distance)
 				right_y = fixed_distance * math.sin(theta)
 				right_x = math.pow( fixed_distance, 2 ) * (1 - math.cos( theta ) ) - right_y * right_y
 				left_y = 0
