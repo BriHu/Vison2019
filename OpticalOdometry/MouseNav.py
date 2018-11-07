@@ -11,14 +11,22 @@ class MouseNav:
 			return acc_LX, acc_LY, acc_RX, acc_RY, 0
 		else:
 			fixed_distance = 10.0
+			#if the center of rotation occures on either mouse the radius is equal to the fixed distance and we can simplify the math to either case
 			if(acc_RY == 0):
+				#theta in radians is equal to the arc (accumulated y) divided by the radius (fixed distance)
 				theta = acc_LY / fixed_distance
+				#solving a simple imaginary triangle gives us the y-part of the curve
 				left_y = fixed_distance * math.sin(theta)
+				#for the x-part we need the angle of the curve of our imaginary triangle
+				#the sum of the angles in all triangles is equal to pi and since the angles connecting our hypotonuse to the start and final
+				#points of the curve are equal, the angle we need can be found using this:
 				left_angle = ( math.pi / 2 ) - ( math.pi - theta ) / 2
+				#then we can solve for the x-part of the arc using the known y-part
 				left_x = left_y / math.tan(left_angle)
 				right_y = 0
 				right_x = 0
 			elif(acc_LY == 0):
+				#see above
 				theta = -acc_RY / fixed_distance
 				right_y = fixed_distance * math.sin(theta)
 				right_angle = ( math.pi / 2 ) - ( math.pi - theta ) / 2
@@ -68,5 +76,5 @@ class MouseNav:
 		LY += left_dy * c - left_dx * s
 		RX += right_dy * s + right_dx * c
 		RY += right_dy * c - right_dx * s
-		angle += theta
+		angle -= theta #turning right is positive, left is negative
 

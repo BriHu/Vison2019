@@ -33,7 +33,7 @@ class Mouse:
 		self.dx += dx
 
 	def set_dy(self, dy):
-		self.dy += dy
+		self.dy -= dy #y-values are reversed
 
 	def get_set_dx(self, dx):
 		a = self.dx
