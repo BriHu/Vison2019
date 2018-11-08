@@ -3,7 +3,6 @@ import getopt
 import time
 import struct
 import sys
-import math
 
 #long int, long int, unsigned short, unsigned short, unsigned int
 FORMAT = 'llhhI'

@@ -4,7 +4,6 @@ import getopt
 import time
 import struct
 import sys
-import math
 import Mouse
 import MouseNav
 
@@ -32,7 +31,8 @@ if __name__ == '__main__':
 	MN = MouseNav.MouseNav()
 
 	while True:
-		relative_deltas = mn.calc_dxdy(left_mouse.get_set_dx(0), left_mouse.get_set_dy(0), right_mouse.get_set_dx(0), right_mouse.get_set_dy(0))
+		relative_deltas = MN.calc_dxdy(left_mouse.get_set_dx(0), left_mouse.get_set_dy(0), right_mouse.get_set_dx(0), right_mouse.get_set_dy(0))
 		MN.adjust_deltas(relative_deltas[0], relative_deltas[1], relative_deltas[2], relative_deltas[3], relative_deltas[4])
-		print("Left [{0},{1}]   Right[{2},{3}]  Angle: {4}".format(LX, LY, RX, RY, angle))
+		Nav_data = MN.get_all()
+		print("Left [{0},{1}]   Right[{2},{3}]  Angle: {4}".format(Nav_data[0], Nav_data[1], Nav_data[2], Nav_data[3], Nav_data[4]))
 		time.sleep(1)

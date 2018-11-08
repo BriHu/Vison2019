@@ -1,3 +1,5 @@
+import math
+
 class MouseNav:
 	def __init__(self):
 		self.angle = 0.0
@@ -6,7 +8,10 @@ class MouseNav:
 		self.RX = 0.0
 		self.RY = 0.0
 
-	def calc_dxdy(acc_LX, acc_LY, acc_RX, acc_RY):
+	def get_all(self):
+		return self.LX, self.LY, self.RX, self.RY, self.angle
+
+	def calc_dxdy(self, acc_LX, acc_LY, acc_RX, acc_RY):
 		if(acc_LY == acc_RY):
 			return acc_LX, acc_LY, acc_RX, acc_RY, 0
 		else:
@@ -64,17 +69,12 @@ class MouseNav:
 
 			return left_dx, left_dy, right_dx, right_dy, theta
 
-	def adjust_deltas(left_dx, left_dy, right_dx, right_dy, theta):
-		global angle
-		global LX
-		global LY
-		global RX
-		global RY
-		s = math.sin(angle)
-		c = math.cos(angle)
-		LX += left_dy * s + left_dx * c
-		LY += left_dy * c - left_dx * s
-		RX += right_dy * s + right_dx * c
-		RY += right_dy * c - right_dx * s
-		angle -= theta #turning right is positive, left is negative
+	def adjust_deltas(self, left_dx, left_dy, right_dx, right_dy, theta):
+		s = math.sin(self.angle)
+		c = math.cos(self.angle)
+		self.LX += left_dy * s + left_dx * c
+		self.LY += left_dy * c - left_dx * s
+		self.RX += right_dy * s + right_dx * c
+		self.RY += right_dy * c - right_dx * s
+		self.angle -= theta #turning right is positive, left is negative
 
