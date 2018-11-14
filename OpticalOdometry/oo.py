@@ -8,7 +8,8 @@ import Mouse
 import MouseNav
 
 if __name__ == '__main__':
-	opts, args = getopt.getopt(sys.argv[1:], 'l:r:', ['left=', 'right='])
+	opts, args = getopt.getopt(sys.argv[1:], 'l:r:m:', ['left=', 'right=', 'mouse='])
+	is_single = False
 	for opt in opts:
 		if opt[0] in ('-l','--left'):
 			left_path = "/dev/input/event" + opt[1]
@@ -16,6 +17,19 @@ if __name__ == '__main__':
 		if opt[0] in ('-r','--right'):
 			right_path = "/dev/input/event" + opt[1]
 			print("got right")
+		if opt[0] in ('-m','--mouse'):
+			mouse_path = "/dev/input/event" + opt[1]
+			is_single = True
+			print("got mouse")
+
+	if is_single:
+		mouse = Mouse.Mouse(mouse_path)
+		mouse_thread = threading.Thread(target = mouse.loop)
+		mouse_thread.daemon = True
+		mouse_thread.start()
+		while True:
+			print("X: {0}, Y: {1}".format(mouse.get_dx(), mouse.get_dy()))
+			time.sleep(1)
 
 	left_mouse = Mouse.Mouse(left_path)
 	right_mouse = Mouse.Mouse(right_path)

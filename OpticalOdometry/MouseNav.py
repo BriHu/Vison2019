@@ -15,7 +15,9 @@ class MouseNav:
 		if(acc_LY == acc_RY):
 			return acc_LX, acc_LY, acc_RX, acc_RY, 0
 		else:
-			fixed_distance = 1.0
+			DPI = 1200 #the dots per inch of mice in use
+			distance = 1.0 #fixed distance in inches
+			fixed_distance = DPI * distance #fixed distance in dots
 			#if the center of rotation occures on either mouse the radius is equal to the fixed distance and we can simplify the math to either case
 			if(acc_RY == 0):
 				#theta in radians is equal to the arc (accumulated y) divided by the radius (fixed distance)
