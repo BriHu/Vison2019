@@ -1,9 +1,10 @@
 import threading
+import queue
 import getopt
-import time
-import struct
-import sys
-import OpenMV_IN
+import time 
+import struct 
+import sys 
+import OpenMV_IN 
 import OpenMV_Handler
 
 if __name__ == '__main__':
@@ -23,6 +24,7 @@ if __name__ == '__main__':
 	time.sleep(0.2) #wait for the thread to completely start up
 
 	while True:
-		handler.put(camera.get_message())
-		print("Camera: {5}".format(handler.get_ball_info())
-		time.sleep(1)
+		m = camera.get_message()
+		handler.put_data(m)
+		#print("Camera: {0}".format(handler.get_ball_info()))
+		time.sleep(0.02)

@@ -1,31 +1,36 @@
-import Queue
+import queue
 import threading
 import time
-import Handlers.OrangeBallHandler
+from Handlers import OrangeBallHandler
 
 class Handler:
 	
 	def __init__(self):
-		self.data = Queue.queue(300)
-
+		self.data = queue.Queue(100)
 		self.orange_ball_key = "BALL"
 		self.orange_ball = OrangeBallHandler.OrangeBall_Handler(100)
-
 		self.init_threads()
 
 	def loop(self):
 		while True:
-			d = self.data.get()
-			if d.len() != 0: #if the message exists
+			if(not self.data.empty()):
+				d = self.data.get(2)
 				if any(self.orange_ball_key in s for s in d):
-					self.orange_ball.put(d)
-			time.sleep(1)
+					self.orange_ball.put(d, 2)
+				time.sleep(1)
+			else:
+				pass
+				time.sleep(5)
 
 	def put_data(self, d):
-		self.data.put(d)
+		if(self.data.full()):
+			self.data.get(2)
+			self.data.put(d, 2)
+		else:
+			self.data.put(d, 2)
 
 	def get_ball_info(self):
-		return self.orange_ball.get()
+		return self.orange_ball.get(2)
 
 	def init_threads(self):
 		#define all threads
