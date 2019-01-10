@@ -29,7 +29,7 @@ class Handler:
 
 	def init_threads(self):
 		#define all threads
-		orange_ball_thread = threading.Thread( target = orange_ball.loop )
+		orange_ball_thread = threading.Thread( target = self.orange_ball.loop )
 
 		#the threads MUST close on progam close
 		orange_ball_thread.daemon = True 
