@@ -1,6 +1,7 @@
 import Queue
 import threading
 import time
+import Handlers.OrangeBallHandler
 
 class Handler:
 	
@@ -8,7 +9,9 @@ class Handler:
 		self.data = Queue.queue(300)
 
 		self.orange_ball_key = "BALL"
-		self.orange_ball = OrangeBall_Handler(100)
+		self.orange_ball = OrangeBallHandler.OrangeBall_Handler(100)
+
+		self.init_threads()
 
 	def loop(self):
 		while True:
@@ -24,15 +27,11 @@ class Handler:
 	def get_ball_info(self):
 		return self.orange_ball.get()
 
-class OrangeBall_Handler:
-	
-	def __init__(self, queue_size):
-		self.ball_queue = queue.Queue(queue_size) #using a que to allow for collection of data to collect deltas
+	def init_threads(self):
+		#define all threads
+		orange_ball_thread = threading.Thread( target = orange_ball.loop )
 
-	def put(self, message):
-		if message.len() != 0: #if there is a message
-			self.ball_queue.put(message)
+		#the threads MUST close on progam close
+		orange_ball_thread.daemon = True 
 
-	def get(self):
-		return self.ball_queue.get()
-
+		orange_ball_thread.start()
