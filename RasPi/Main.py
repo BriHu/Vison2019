@@ -1,4 +1,3 @@
-#!/usr/local/bin/python3
 import threading
 import getopt
 import time
@@ -25,5 +24,5 @@ if __name__ == '__main__':
 
 	while True:
 		handler.put(camera.get_message())
-		print("Camera: {5}".format(handler.get_box_info())
+		print("Camera: {5}".format(handler.get_ball_info())
 		time.sleep(1)
